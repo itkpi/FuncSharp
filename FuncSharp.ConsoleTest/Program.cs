@@ -1,5 +1,6 @@
 ﻿using FuncSharp.Extensions;
 using FuncSharp.Extensions.PatternMatching;
+using FuncSharp.Monads;
 using System;
 using System.Linq.Expressions;
 
@@ -32,7 +33,22 @@ namespace FuncSharp.ConsoleTest
             int result = Match<string, int>(test)          
                   | ("Test", () => 1) | ("hello", () => 2) | ("world", () => 3);
 
-            Console.WriteLine(result);
+            Option<int> opt = Option.Some(5);
+            Option<int> some = 1;
+            Option<int> none = Option.None;
+
+            int res2 = Match<int, int>(opt) 
+                | (opt is Some<int>, () => 1) 
+                | (opt is None<int>, () => 2);
+
+            var optResult = Match<int, Option<int>>(opt)
+                .IfSome(x => x * 2)
+                .IfNone(() => 0)
+                .Result
+                .Map(x => $"Option: {x}");
+            
+
+            Console.WriteLine(optResult);
         }
     }
 }

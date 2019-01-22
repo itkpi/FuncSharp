@@ -29,9 +29,9 @@ namespace FuncSharp.Extensions.PatternMatching
 
         public Match(TData data) => _data = data;
 
-        public void Add(Func<TData, bool> on, Func<TResult> execute) => _matches.Add(new MatchCase<TData, TResult>(on, execute));
+        public virtual void Add(Func<TData, bool> on, Func<TResult> execute) => _matches.Add(new MatchCase<TData, TResult>(on, execute));
 
-        public Match<TData, TResult> Case(Func<TData, bool> on, Func<TResult> execute)
+        public virtual Match<TData, TResult> Case(Func<TData, bool> on, Func<TResult> execute)
         {
             Add(on, execute);
             return this;
